@@ -6,8 +6,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     python3-pip \
+    git \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Hermes Agent
+RUN curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
 
 # Install official Groq CLI globally (before dropping to non-root user)
 RUN npm install -g @xai-official/grok
