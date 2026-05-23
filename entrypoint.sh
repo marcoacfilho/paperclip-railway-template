@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# Install Hermes Agent
-pip install hermes-agent
-
 # Fix ownership of the Railway volume mount at /paperclip
 # Railway mounts volumes as root, but we need the paperclip user to write to it
 if [ -d "/paperclip" ]; then
