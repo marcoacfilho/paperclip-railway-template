@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+RUN sudo apt update && sudo apt install python3-pip
+
 # Install official Groq CLI globally (before dropping to non-root user)
 RUN npm install -g @xai-official/grok
 
