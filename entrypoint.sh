@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Install Hermes Agent
+curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+
 # Fix ownership of the Railway volume mount at /paperclip
 # Railway mounts volumes as root, but we need the paperclip user to write to it
 if [ -d "/paperclip" ]; then
