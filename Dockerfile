@@ -1,7 +1,15 @@
 FROM node:20-slim
 
-# Install gosu for privilege dropping in entrypoint
-RUN apt-get update && apt-get install -y --no-install-recommends gosu && rm -rf /var/lib/apt/lists/*
+# Install gosu + CA certs for OpenAI/Codex SSL + curl for healthchecks
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gosu \
+    ca-certificates \
+    curl \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install official Groq CLI globally (before dropping to non-root user)
+RUN npm install -g @xai-official/grok
 
 # Create a non-root user (required: Claude CLI refuses --dangerously-skip-permissions as root)
 RUN groupadd -r paperclip && useradd -r -g paperclip -m -d /home/paperclip -s /bin/bash paperclip
@@ -27,6 +35,7 @@ RUN chmod +x /entrypoint.sh
 
 # Railway injects PORT at runtime (default 3100)
 ENV PORT=3100
+ENV NODE_ENV=production
 EXPOSE 3100
 
 # Entrypoint runs as root to fix volume permissions, then drops to paperclip user
