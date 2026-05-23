@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install official Groq CLI globally (before dropping to non-root user)
 RUN npm install -g @xai-official/grok
 
-# Install Hermes Agent
-RUN curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
-
 # Create a non-root user (required: Claude CLI refuses --dangerously-skip-permissions as root)
 RUN groupadd -r paperclip && useradd -r -g paperclip -m -d /home/paperclip -s /bin/bash paperclip
 
